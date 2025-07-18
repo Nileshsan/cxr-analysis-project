@@ -5,170 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XRayIQ – AI-Powered Chest X-ray Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General Styles */
+        :root {
+            --primary: #b2f7ef; /* light green */
+            --secondary: #f6f5e8; /* light beige */
+            --accent: #a7c7e7; /* light blue */
+            --text-dark: #2d3a4a;
+            --text-light: #6c757d;
+            --success: #7ed957;
+            --danger: #ff6f61;
+            --white: #fff;
+            --shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+        }
+        html, body {
+            min-height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--text-dark);
             margin: 0;
             padding: 0;
-            background-color: #f0f8ff;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 2rem auto;
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            text-align: center;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .result {
-            margin-top: 20px;
-            display: none; /* Initially hidden */
-        }
-        /* Header Section */
         header {
-            background-color: #e8f0fe;
-            padding: 20px;
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            padding: 2rem 0 1rem 0;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
         }
         header h1 {
-            font-size: 2.5rem;
-            color: #4a4a8a;
+            font-size: 2.8rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #e0f7fa;
         }
         header p {
             font-size: 1.2rem;
-            color: #6c757d;
+            color: var(--text-light);
+            margin-bottom: 0;
         }
-        /* Main Content Section */
         .main-content {
-            padding: 40px 0;
+            padding: 2.5rem 0 1rem 0;
         }
         .main-content h2 {
-            font-size: 1.8rem;
-            color: #333;
+            font-size: 2rem;
+            color: var(--text-dark);
+            font-weight: 600;
         }
         .main-content p {
-            font-size: 1.2rem;
-            color: #555;
+            font-size: 1.15rem;
+            color: var(--text-light);
         }
         .cta-button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            padding: 12px 32px;
+            background: linear-gradient(90deg, var(--accent) 60%, var(--primary) 100%);
+            color: var(--text-dark);
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px #e0f7fa;
+            transition: background 0.3s, transform 0.2s;
         }
         .cta-button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            transform: translateY(-2px) scale(1.03);
         }
-
-        /* Login / Signup Section */
         .auth-section {
-            background-color: #f8f9fa;
-            padding: 40px 0;
+            background: var(--secondary);
+            padding: 2.5rem 0 2rem 0;
+            border-radius: 18px;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
         }
-
         .auth-section h3 {
             font-size: 1.5rem;
-            color: #333;
+            color: var(--text-dark);
         }
-
         .auth-buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 24px;
+            margin-top: 1.5rem;
         }
-
         .login-button, .signup-button {
-            background-color: #6c757d;
-            color: white;
-            padding: 10px 20px;
+            background: var(--accent);
+            color: var(--text-dark);
+            padding: 10px 28px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px #e0f7fa;
+            transition: background 0.2s, color 0.2s;
         }
-
         .login-button:hover, .signup-button:hover {
-            background-color: #5a6268;
+            background: var(--primary);
+            color: var(--text-dark);
         }
-
-
-        /* Upload Section */
         .upload-section {
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            padding: 2rem 2rem 1.5rem 2rem;
+            box-shadow: var(--shadow);
             display: none;
         }
-
         .upload-section h3 {
-            font-size: 1.8rem;
-             color: #4a4a8a;
+            font-size: 1.7rem;
+            color: var(--text-dark);
+            font-weight: 600;
         }
-
         .file-label {
             display: block;
             margin-bottom: 10px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-dark);
         }
         #file-name {
             margin: 10px 0;
+            color: var(--text-light);
+        }
+        .drag-drop-area {
+            border: 2px dashed var(--accent);
+            border-radius: 12px;
+            background: var(--secondary);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+        .drag-drop-area.dragover {
+            border-color: var(--primary);
+            background: #e0f7fa;
+        }
+        .drag-drop-area i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
         }
         .submit-file-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            color: var(--text-dark);
+            padding: 12px 32px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block; /* Make button a block element */
-            margin: 20px auto; /* Center the button */
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 20px auto 0 auto;
+            display: block;
+            box-shadow: 0 2px 8px #e0f7fa;
+            transition: background 0.3s, transform 0.2s;
         }
         .submit-file-btn:hover {
-            background-color: #0056b3;
+            background: linear-gradient(90deg, var(--accent) 60%, var(--primary) 100%);
+            transform: translateY(-2px) scale(1.03);
         }
-
-        .proceed-btn {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            margin-top: 20px;
+        .progress {
+            height: 18px;
+            margin-top: 1rem;
+            border-radius: 10px;
+            background: #e0f7fa;
+        }
+        .progress-bar {
+            background: var(--accent);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .result {
+            margin-top: 2rem;
             display: none;
+            background: var(--secondary);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            box-shadow: 0 2px 8px #e0f7fa;
+        }
+        .result h2 {
+            color: var(--success);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .result .fa-check-circle {
+            color: var(--success);
+            margin-right: 8px;
+        }
+        .result .fa-times-circle {
+            color: var(--danger);
+            margin-right: 8px;
+        }
+        #uploaded-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #e0f7fa;
+        }
+        .info-tooltip {
+            color: var(--accent);
+            margin-left: 6px;
             cursor: pointer;
         }
-        .proceed-btn:hover {
-            background-color: #218838;
+        .form-check-label {
+            color: var(--text-light);
         }
-        /* Footer Section */
-        footer {
-            background-color: #343a40;
-            color: baige;
-            padding: 20px;
+        .footer {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+            color: var(--text-dark);
+            padding: 2rem 0 1rem 0;
             text-align: center;
+            border-radius: 30px 30px 0 0;
+            margin-top: 3rem;
+            box-shadow: 0 -2px 12px rgba(44, 62, 80, 0.07);
         }
-
-        /* Modal Styles */
+        .footer a {
+            color: var(--text-dark);
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .footer a:hover {
+            color: var(--accent);
+        }
         .modal {
             display: none;
             position: fixed;
@@ -181,17 +252,17 @@
             background-color: rgba(0, 0, 0, 0.4);
             padding-top: 60px;
         }
-
         .modal-content {
-            background-color: #fff;
+            background-color: var(--white);
             margin: 5% auto;
-            padding: 20px;
+            padding: 30px 20px 20px 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 90%;
             max-width: 400px;
             text-align: center;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
         }
-
         .close-btn {
             color: #aaa;
             float: right;
@@ -199,16 +270,49 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         .close-btn:hover {
-            color: black;
+            color: var(--danger);
         }
-
-        #uploaded-image {
-                max-width: 100%;
-                max-height: 300px;
-                margin-top: 10px;
-                margin-bottom: 20px;
+        .password-toggle {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--accent);
+        }
+        .testimonial-section {
+            background: var(--secondary);
+            border-radius: 18px;
+            margin: 2rem auto 0 auto;
+            max-width: 700px;
+            padding: 2rem 2rem 1.5rem 2rem;
+            box-shadow: var(--shadow);
+        }
+        .testimonial {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+        }
+        .testimonial .fa-quote-left {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+        .testimonial .fa-quote-right {
+            color: var(--accent);
+            margin-left: 8px;
+        }
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        @media (max-width: 768px) {
+            .container, .testimonial-section {
+                padding: 1rem 0.5rem;
+            }
+            .upload-section {
+                padding: 1rem 0.5rem;
+            }
         }
     </style>
 </head>
@@ -216,11 +320,10 @@
     <!-- Header Section -->
     <header>
         <div class="container">
-            <h1>Welcome to XRayIQ</h1>
+            <h1><i class="fas fa-x-ray"></i> Welcome to XRayIQ</h1>
             <p>AI-Powered Chest X-ray Analysis</p>
         </div>
     </header>
-
     <!-- Main Content Section -->
     <section class="main-content">
         <div class="container">
@@ -229,37 +332,41 @@
             <button class="cta-button" id="get-started-btn">Get Started</button>
         </div>
     </section>
-
     <!-- Login / Signup Section -->
     <section class="auth-section" id="auth-section" style="display: none;">
         <div class="container">
             <h3>Sign In or Create an Account</h3>
             <div class="auth-buttons">
-                <button class="login-button" id="login-btn">Sign In</button>
-                <button class="signup-button" id="signup-btn">Create Account</button>
+                <button class="login-button" id="login-btn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                <button class="signup-button" id="signup-btn"><i class="fas fa-user-plus"></i> Create Account</button>
             </div>
         </div>
     </section>
-
-
     <!-- Upload Section -->
     <section class="upload-section" id="upload-section">
         <div class="container">
             <h3>Upload Your Chest X-Ray</h3>
             <form id="upload-form" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <label for="file-upload" class="file-label">Choose File:</label>
-                <input type="file" id="file-upload" name="uploaded_file" accept="image/*, .dicom" required />
-                <p id="file-name"></p>
-                <label>
-                    <input type="checkbox" id="terms-checkbox" required />
-                    I agree to all terms and conditions
-                </label>
-                <div>
-                    <button type="submit" id="submit-file-btn" class="button">Upload and Generate Report</button>
+                <div class="drag-drop-area" id="dragDropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop your X-ray image here, or <span style="color: var(--accent); text-decoration: underline; cursor: pointer;" onclick="document.getElementById('file-upload').click()">browse</span></p>
+                    <input type="file" id="file-upload" name="uploaded_file" accept="image/*, .dicom" style="display:none;" required />
+                    <p id="file-name"></p>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="terms-checkbox" required />
+                    <label class="form-check-label" for="terms-checkbox">
+                        I agree to all terms and conditions
+                        <i class="fas fa-info-circle info-tooltip" title="You must agree to continue."></i>
+                    </label>
+                </div>
+                <button type="submit" id="submit-file-btn" class="submit-file-btn">Upload and Generate Report</button>
+                <div class="progress" id="uploadProgress" style="display:none;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
                 </div>
                 <div class="result">
-                    <h2>Analysis Result</h2>
+                    <h2><i class="fas fa-check-circle"></i> Analysis Result</h2>
                     <img id="uploaded-image" src="" alt="Uploaded Image">
                     <p id="prediction"></p>
                     <p id="confidence"></p>
@@ -268,124 +375,211 @@
             </form>
         </div>
     </section>
-    <!-- Footer Section -->
-    <footer>
+    <!-- Testimonials Section -->
+    <section class="testimonial-section">
         <div class="container">
-            <p>&copy; 2024 XRayIQ. All Rights Reserved.</p>
+            <h4 class="mb-4" style="color: var(--accent); font-weight: 700;">What Our Users Say</h4>
+            <div class="testimonial"><i class="fas fa-quote-left"></i> XRayIQ made my workflow so much faster and more reliable! <i class="fas fa-quote-right"></i><div class="testimonial-author">– Dr. A. Smith</div></div>
+            <div class="testimonial"><i class="fas fa-quote-left"></i> The interface is beautiful and easy to use. Highly recommended. <i class="fas fa-quote-right"></i><div class="testimonial-author">– Radiology Tech</div></div>
+            <div class="testimonial"><i class="fas fa-quote-left"></i> I love the instant PDF reports and the drag-and-drop upload! <i class="fas fa-quote-right"></i><div class="testimonial-author">– Clinic Admin</div></div>
+        </div>
+    </section>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 XRayIQ. All Rights Reserved.</p>
+            <div class="mt-2">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
         </div>
     </footer>
     <!-- Modal for Login/Signup -->
     <div id="auth-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content position-relative">
             <span class="close-btn" id="close-modal">&times;</span>
             <h3 id="modal-title">Login to Your Account</h3>
-            <input type="text" id="username" placeholder="Username" required>
-            <br><br>
-            <input type="password" id="password" placeholder="Password" required>
-            <br><br>
-            <button type="button" id="modal-auth-btn">Log In</button>
-            <p id="signup-prompt" style="display: none;">Don't have an account? <button id="create-account-btn">Create Account</button></p>
+            <input type="text" id="username" placeholder="Username" required class="form-control mb-3">
+            <div class="position-relative mb-3">
+                <input type="password" id="password" placeholder="Password" required class="form-control">
+                <span class="password-toggle" id="togglePassword"><i class="fas fa-eye"></i></span>
+            </div>
+            <button type="button" id="modal-auth-btn" class="btn btn-success w-100 mb-2">Log In</button>
+            <p id="signup-prompt" style="display: none;">Don't have an account? <button id="create-account-btn" class="btn btn-link">Create Account</button></p>
         </div>
     </div>
-
     <script>
-        // Show Login/Signup section on 'Get Started' click
+        // UI logic for login/signup modal
         document.getElementById('get-started-btn').addEventListener('click', function() {
             document.getElementById('auth-section').style.display = 'block';
         });
-
-        // Open modal for login on clicking Login
         document.getElementById('login-btn').addEventListener('click', function() {
             document.getElementById('modal-title').textContent = "Login to Your Account";
-            document.getElementById('modal-auth-btn').textContent = "Log In";  // Ensure button says Log In
-            document.getElementById('signup-prompt').style.display = "none"; // Hide sign-up prompt
+            document.getElementById('modal-auth-btn').textContent = "Log In";
+            document.getElementById('signup-prompt').style.display = "none";
             openModal();
         });
-
-        // Open modal for signup on clicking Create Account
         document.getElementById('signup-btn').addEventListener('click', function() {
             document.getElementById('modal-title').textContent = "Create Your Account";
-            document.getElementById('modal-auth-btn').textContent = "Sign Up"; // Change button text to Sign Up
-            document.getElementById('signup-prompt').style.display = "none"; // Hide sign-up prompt
+            document.getElementById('modal-auth-btn').textContent = "Sign Up";
+            document.getElementById('signup-prompt').style.display = "none";
             openModal();
         });
-
-        // Show modal
         function openModal() {
             document.getElementById('auth-modal').style.display = 'block';
         }
-
-        // Close modal on close button click
         document.getElementById('close-modal').onclick = function() {
             document.getElementById('auth-modal').style.display = 'none';
         }
-
-        // Handle modal authentication logic
+        // Password visibility toggle
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const pwd = document.getElementById('password');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                pwd.type = 'password';
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
         document.getElementById('modal-auth-btn').addEventListener('click', function() {
             const title = document.getElementById('modal-title').textContent;
             if (title === "Login to Your Account") {
-                // Perform login validation here
                 alert("Logged in successfully.");
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('upload-section').style.display = 'block';
             } else {
-                // Simulate account creation
                 alert("Account created successfully. You can now log in.");
-                document.getElementById('signup-prompt').style.display = "block"; // Show sign-up prompt
-                document.getElementById('modal-title').textContent = "Login to Your Account"; // Change back to login title
-                document.getElementById('modal-auth-btn').textContent = "Log In"; // Change button text back to Log In
+                document.getElementById('signup-prompt').style.display = "block";
+                document.getElementById('modal-title').textContent = "Login to Your Account";
+                document.getElementById('modal-auth-btn').textContent = "Log In";
             }
-            document.getElementById('auth-modal').style.display = 'none'; // Close modal after action
+            document.getElementById('auth-modal').style.display = 'none';
         });
-
-        // Handle file upload
-        document.getElementById('file-upload').addEventListener('change', function() {
-            let fileName = this.files[0] ? this.files[0].name : '';
+        // Drag and drop upload logic
+        const dragDropArea = document.getElementById('dragDropArea');
+        const fileInput = document.getElementById('file-upload');
+        dragDropArea.addEventListener('click', function(e) {
+            if (e.target.tagName !== 'INPUT') fileInput.click();
+        });
+        dragDropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dragDropArea.classList.add('dragover');
+        });
+        dragDropArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dragDropArea.classList.remove('dragover');
+        });
+        dragDropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dragDropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                showFileName();
+                previewImage();
+            }
+        });
+        fileInput.addEventListener('change', function() {
+            showFileName();
+            previewImage();
+        });
+        function showFileName() {
+            let fileName = fileInput.files[0] ? fileInput.files[0].name : '';
             document.getElementById('file-name').textContent = `Selected File: ${fileName}`;
-        });
-        // Submit button logic for file upload
-        document.getElementById('submit-file-btn').addEventListener('click', function() {
-            if (!document.getElementById('terms-checkbox').checked) {
-                alert("Please agree to the terms and conditions.");
-            } else if (!document.getElementById('file-upload').files.length) {
-                alert("Please upload a file to proceed.");
-            } else {
-                alert("File uploaded successfully.");
-                document.getElementById('proceed-btn').style.display = 'block';
+        }
+        function previewImage() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('uploaded-image').src = e.target.result;
+                    document.querySelector('.result').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             }
-        });
-
-        // JavaScript to handle the form submission and update results
+        }
+        // Upload progress bar and AJAX upload
         const form = document.getElementById('upload-form');
         form.addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent default form submission
-
+            event.preventDefault();
+            if (!document.getElementById('terms-checkbox').checked) {
+                alert("Please agree to the terms and conditions.");
+                return;
+            }
+            if (!fileInput.files.length) {
+                alert("Please upload a file to proceed.");
+                return;
+            }
             const formData = new FormData(form);
-            fetch('', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Update the result section
-                const uploadedImage = document.getElementById('uploaded-image');
-                uploadedImage.src = URL.createObjectURL(formData.get('uploaded_file')); // Display the uploaded image
-                document.getElementById('prediction').innerText = `Predicted Labels: ${data.predicted_labels.join(', ')}`;
-                document.getElementById('confidence').innerText = `Confidence: ${data.confidence.toFixed(2)}%`;
-                document.getElementById('download-report').href = data.report_url;
-                document.getElementById('download-report').style.display = 'block';
-                document.querySelector('.result').style.display = 'block';  // Show results
-            })
-            .catch(error => {
-                console.error('Error:', error);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/', true);
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    document.getElementById('uploadProgress').style.display = 'block';
+                    const bar = document.querySelector('.progress-bar');
+                    bar.style.width = percent + '%';
+                    bar.textContent = percent + '%';
+                }
+            };
+            xhr.onload = function() {
+                document.getElementById('uploadProgress').style.display = 'none';
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    document.getElementById('prediction').innerText = `Predicted Labels: ${data.predicted_labels.join(', ')}`;
+                    document.getElementById('confidence').innerText = `Confidence: ${data.confidence.toFixed(2)}%`;
+                    document.getElementById('download-report').href = data.report_url;
+                    document.getElementById('download-report').style.display = 'block';
+                    document.querySelector('.result').style.display = 'block';
+                } else {
+                    alert('Upload failed. Please try again.');
+                }
+            };
+            xhr.onerror = function() {
+                document.getElementById('uploadProgress').style.display = 'none';
+                alert('An error occurred during upload.');
+            };
+            xhr.send(formData);
+        });
+        // Accessibility: close modal with Esc
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('auth-modal').style.display = 'none';
+            }
+        });
+        // Tooltip for info icons
+        document.querySelectorAll('.info-tooltip').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'custom-tooltip';
+                tooltip.innerText = el.title;
+                tooltip.style.position = 'absolute';
+                tooltip.style.background = 'var(--accent)';
+                tooltip.style.color = 'var(--text-dark)';
+                tooltip.style.padding = '6px 12px';
+                tooltip.style.borderRadius = '8px';
+                tooltip.style.top = (el.getBoundingClientRect().top - 40) + 'px';
+                tooltip.style.left = (el.getBoundingClientRect().left + 20) + 'px';
+                tooltip.style.zIndex = 2000;
+                tooltip.id = 'active-tooltip';
+                document.body.appendChild(tooltip);
+            });
+            el.addEventListener('mouseleave', function() {
+                const tooltip = document.getElementById('active-tooltip');
+                if (tooltip) tooltip.remove();
             });
         });
-
-        // Handle file upload
-        document.getElementById('file-upload').addEventListener('change', function() {
-            let fileName = this.files[0] ? this.files[0].name : '';
-            document.getElementById('file-name').textContent = `Selected File: ${fileName}`;
-        });
+        // Demo: testimonials carousel (auto-scroll)
+        let testimonialIndex = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        setInterval(function() {
+            testimonials.forEach((el, i) => {
+                el.style.display = i === testimonialIndex ? 'block' : 'none';
+            });
+            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+        }, 5000);
     </script>
 </body>
 </html>
